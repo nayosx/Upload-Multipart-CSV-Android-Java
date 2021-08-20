@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ahtc.demoretrofit.retrofit.RetrofitInstance;
@@ -36,17 +37,21 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     private Button btn;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn = (Button) findViewById(R.id.button);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         verificPermission();
     }
 
     public void send(View v) {
         btn.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
         initialize();
     }
 
@@ -109,15 +114,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CSVUploadResponse> call, Response<CSVUploadResponse> response) {
                 showMessage(response.message());
-                btn.setEnabled(true);
+                setVisibilityElements();
             }
 
             @Override
             public void onFailure(Call<CSVUploadResponse> call, Throwable t) {
                 t.printStackTrace();
-                showMessage("The sending of the data has failed");
-                btn.setEnabled(true);
+                showMessage("The upload is failed");
+                setVisibilityElements();
             }
         });
+    }
+
+    private void setVisibilityElements() {
+        btn.setEnabled(true);
+        progressBar.setVisibility(View.GONE);
     }
 }

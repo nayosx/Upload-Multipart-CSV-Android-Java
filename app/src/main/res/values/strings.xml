@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">DemoRetrofit</string>
+    <string name="app_name">Demo Retrofit</string>
     <string name="btnTitle">Upload CSV file</string>
 </resources>
