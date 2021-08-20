@@ -1,4 +1,4 @@
-package com.ahtc.demoretrofit.net.retrofit.model.response;
+package com.ahtc.demoretrofit.retrofit.model.response;
 
 import com.google.gson.annotations.SerializedName;
 

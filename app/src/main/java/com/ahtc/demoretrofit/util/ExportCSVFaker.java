@@ -12,15 +12,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExportCSV {
+public class ExportCSVFaker {
 
-    private File directory;
-    private String SEPARATOR = ", ";
-    private String FILE_EXPORT = "file_export.csv";
-    private List<Note> listNotes;
-    private File csv;
+    private final File directory;
+    private final String SEPARATOR = ", ";
+    private final String FILE_EXPORT = "file_export.csv";
+    private final List<Note> listNotes;
+    private final File csv;
 
-    public ExportCSV(Context context) {
+    public ExportCSVFaker(Context context) {
         directory = new File(context.getExternalFilesDir(""), Environment.DIRECTORY_DOCUMENTS);
         listNotes = new ArrayList<>();
         csv = new File(directory, FILE_EXPORT);
@@ -81,7 +81,7 @@ public class ExportCSV {
     }
 
     private String generateHeader() {
-        return "id" + SEPARATOR + "nota" + SEPARATOR + "idUser" ;
+        return "id" + SEPARATOR + "note" + SEPARATOR + "idUser" ;
     }
 
     private String generateBody() {

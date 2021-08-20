@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.ahtc.demoretrofit.net.retrofit.RetrofitInstance;
-import com.ahtc.demoretrofit.net.retrofit.RetrofitServices;
-import com.ahtc.demoretrofit.net.retrofit.model.response.CSVUploadResponse;
-import com.ahtc.demoretrofit.util.ExportCSV;
+import com.ahtc.demoretrofit.retrofit.RetrofitInstance;
+import com.ahtc.demoretrofit.retrofit.RetrofitServices;
+import com.ahtc.demoretrofit.retrofit.model.response.CSVUploadResponse;
+import com.ahtc.demoretrofit.util.ExportCSVFaker;
 
 import java.io.File;
 
@@ -30,8 +30,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int PERMISSION = 100;
-    private String[] permissions = {
+    private final int PERMISSION = 100;
+    private final String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
@@ -51,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        ExportCSV exportCSV = new ExportCSV(this);
-        if(exportCSV.isCSVExist()) {
-            sendCSVToServer(exportCSV.getCsv());
+        ExportCSVFaker exportCSVFaker = new ExportCSVFaker(this);
+        if(exportCSVFaker.isCSVExist()) {
+            sendCSVToServer(exportCSVFaker.getCsv());
         } else {
-            showMessage("El archivo no fue generado");
+            showMessage("The file was not generated");
         }
     }
 
@@ -78,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CSVUploadResponse> call, Throwable t) {
                 t.printStackTrace();
-                showMessage("A fallado el envio de los datos");
+                showMessage("The sending of the data has failed");
                 btn.setEnabled(true);
             }
         });
     }
 
     private void showMessage(String message) {
-        message = (message.isEmpty()) ? "No hay mensaje que mostrar" : message;
+        message = (message.isEmpty()) ? "There is no message to show" : message;
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showPermissionRequest() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Información");
-        builder.setMessage("A continuación se mostrara un cuadro de dialogo donde se le pedira que autorize los permisos de manejo de medios, por favor aceptelos para que el aplicativo pueda seguir trabajando de manera adeucada...");
-        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+        builder.setTitle("Information");
+        builder.setMessage("Next, a dialog box will be shown where you will be asked to authorize the media handling permissions, please accept them so that the application can continue working properly ...");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 getPermissions();
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == PERMISSION) {
-            initialize();
+            showMessage("permissions granted");
         }
     }
 }

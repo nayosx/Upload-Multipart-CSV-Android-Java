@@ -1,6 +1,6 @@
-package com.ahtc.demoretrofit.net.retrofit;
+package com.ahtc.demoretrofit.retrofit;
 
-import com.ahtc.demoretrofit.net.retrofit.model.response.CSVUploadResponse;
+import com.ahtc.demoretrofit.retrofit.model.response.CSVUploadResponse;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
