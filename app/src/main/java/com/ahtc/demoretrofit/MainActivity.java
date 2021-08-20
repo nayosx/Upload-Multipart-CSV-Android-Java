@@ -50,6 +50,43 @@ public class MainActivity extends AppCompatActivity {
         initialize();
     }
 
+    private void verificPermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            showPermissionRequest();
+        }
+    }
+
+    private void showPermissionRequest() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Information");
+        builder.setMessage("Next, a dialog box will be shown where you will be asked to authorize the media handling permissions, please accept them so that the application can continue working properly ...");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getPermissions();
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    private void getPermissions() {
+        ActivityCompat.requestPermissions(this, permissions, PERMISSION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSION) {
+            showMessage("permissions granted");
+        }
+    }
+
+    private void showMessage(String message) {
+        message = (message.isEmpty()) ? "There is no message to show" : message;
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
     private void initialize() {
         ExportCSVFaker exportCSVFaker = new ExportCSVFaker(this);
         if(exportCSVFaker.isCSVExist()) {
@@ -82,43 +119,5 @@ public class MainActivity extends AppCompatActivity {
                 btn.setEnabled(true);
             }
         });
-    }
-
-    private void showMessage(String message) {
-        message = (message.isEmpty()) ? "There is no message to show" : message;
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-
-    private void verificPermission() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            showPermissionRequest();
-        }
-    }
-
-    private void showPermissionRequest() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Information");
-        builder.setMessage("Next, a dialog box will be shown where you will be asked to authorize the media handling permissions, please accept them so that the application can continue working properly ...");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getPermissions();
-            }
-        });
-        builder.setCancelable(false);
-        builder.show();
-    }
-
-    private void getPermissions() {
-        ActivityCompat.requestPermissions(this, permissions, PERMISSION);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == PERMISSION) {
-            showMessage("permissions granted");
-        }
     }
 }
